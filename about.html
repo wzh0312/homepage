@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Mr.wei</title>
     <link rel="icon" type="image/png" sizes="32x32" href="/homelab-logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,232 +11,234 @@
     <style>
         :root {
             --bg: #F9F8F6;
+            --bg2: #F3F2EF;
             --text: #1C1C1C;
             --muted: rgba(28,28,28,0.6);
             --dim: rgba(28,28,28,0.4);
-            --faint: rgba(28,28,28,0.1);
-            --border: rgba(28,28,28,0.12);
+            --faint: rgba(28,28,28,0.08);
+            --border: rgba(28,28,28,0.1);
+            --card: rgba(28,28,28,0.03);
         }
         * { margin:0; padding:0; box-sizing:border-box; }
         html { scroll-behavior:smooth; }
+        @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            font-size: 15px;
-            line-height: 1.75;
-            -webkit-font-smoothing: antialiased;
+            font-family:'Inter',-apple-system,sans-serif;
+            background:var(--bg); color:var(--text);
+            font-size:14px; line-height:1.7;
+            -webkit-font-smoothing:antialiased;
         }
-        ::selection { background: rgba(28,28,28,0.1); }
+        ::selection { background:rgba(28,28,28,0.1); }
+        ::-webkit-scrollbar { width:0; }
+        a { color:inherit; text-decoration:none; }
 
-        @media(prefers-reduced-motion:reduce) {
-            *, *::before, *::after { animation-duration:0.01ms!important; transition-duration:0.01ms!important; }
+        /* ── Layout ── */
+        .main {
+            max-width:1080px; margin:0 auto;
+            display:flex; gap:24px;
+            padding:32px 24px;
         }
 
-        /* ── Nav ── */
-        .nav {
-            position:fixed; top:0; left:0; right:0; z-index:50;
-            background: rgba(249,248,246,0.92);
-            border-bottom: 1px solid var(--border);
-            padding: 20px 40px;
-            display:flex; align-items:center; justify-content:space-between;
+        /* ── Left Sidebar ── */
+        .sidebar {
+            width:260px; flex-shrink:0;
+            position:sticky; top:32px; height:fit-content;
+            display:flex; flex-direction:column; gap:16px;
         }
-        .nav-logo {
+
+        .avatar-card {
+            border:1px solid var(--border); background:var(--card);
+            padding:28px 20px; text-align:center;
+        }
+        .avatar-wrap {
+            width:100px; height:100px; margin:0 auto 16px;
+            border:1px solid var(--border); overflow:hidden;
+        }
+        .avatar-wrap img { width:100%; height:100%; object-fit:cover; display:block; }
+        .avatar-name {
             font-family:'Playfair Display',serif;
-            font-size:1.3rem; font-weight:700; letter-spacing:-0.02em;
-            color:var(--text); text-decoration:none;
+            font-size:1.4rem; font-weight:700;
+            letter-spacing:-0.02em; margin-bottom:4px;
         }
-        .nav-links { display:flex; gap:32px; }
-        .nav-links a {
-            font-size:0.72rem; font-weight:500; letter-spacing:0.15em;
-            text-transform:uppercase; color:var(--muted);
-            text-decoration:none; position:relative; transition:color 0.2s;
+        .avatar-desc {
+            font-size:0.75rem; color:var(--muted);
+            line-height:1.6;
         }
-        .nav-links a::after {
-            content:''; position:absolute; bottom:-3px; left:0;
-            width:0; height:1px; background:var(--text);
-            transition:width 0.3s;
-        }
-        .nav-links a:hover { color:var(--text); }
-        .nav-links a:hover::after { width:100%; }
 
-        /* ── Hero ── */
-        .hero {
-            min-height:100vh;
-            display:flex; align-items:center;
-            padding:120px 40px 80px;
-            border-bottom:1px solid var(--border);
+        .info-card {
+            border:1px solid var(--border); background:var(--card);
+            padding:18px 20px;
         }
-        .hero-inner { max-width:780px; }
-        .hero-label {
-            font-size:0.65rem; font-weight:500; letter-spacing:0.2em;
+        .info-item {
+            display:flex; align-items:center; gap:10px;
+            font-size:0.8rem; color:var(--muted);
+            margin-bottom:8px;
+        }
+        .info-item:last-child { margin-bottom:0; }
+        .info-item svg { width:14px; height:14px; flex-shrink:0; fill:var(--dim); }
+
+        .tags-card {
+            border:1px solid var(--border); background:var(--card);
+            padding:16px 18px;
+            display:flex; flex-wrap:wrap; gap:6px;
+        }
+        .tag {
+            font-size:0.68rem; font-weight:500; letter-spacing:0.06em;
+            padding:5px 12px; border:1px solid var(--border);
+            color:var(--muted); transition:all 0.2s;
+        }
+        .tag:hover { border-color:var(--text); color:var(--text); }
+
+        .timeline-card {
+            border:1px solid var(--border); background:var(--card);
+            padding:18px 20px;
+        }
+        .timeline-title {
+            font-size:0.62rem; font-weight:600; letter-spacing:0.15em;
             text-transform:uppercase; color:var(--dim);
-            margin-bottom:28px;
+            margin-bottom:14px;
         }
-        .hero h1 {
-            font-family:'Playfair Display',serif;
-            font-size:clamp(3rem, 7vw, 5.5rem);
-            font-weight:700; line-height:1.05;
-            letter-spacing:-0.03em; color:var(--text);
-            margin-bottom:28px;
+        .timeline { list-style:none; }
+        .timeline li {
+            position:relative; padding:0 0 16px 18px;
+            border-left:1px solid var(--border);
+            font-size:0.78rem;
         }
-        .hero h1 em {
-            font-style:italic; font-weight:400;
-            color:var(--muted);
+        .timeline li:last-child { padding-bottom:0; border-left-color:transparent; }
+        .timeline li::before {
+            content:''; position:absolute; left:-3px; top:7px;
+            width:5px; height:5px; background:var(--dim);
         }
-        .hero .bio {
-            font-size:1rem; line-height:1.85;
-            color:var(--muted); max-width:520px;
-            margin-bottom:40px;
-        }
-        .hero-btn {
-            display:inline-block; padding:14px 32px;
-            border:1px solid var(--text); color:var(--text);
-            font-size:0.72rem; font-weight:600; letter-spacing:0.15em;
-            text-transform:uppercase; text-decoration:none;
-            transition:all 0.25s; cursor:pointer; background:transparent;
-        }
-        .hero-btn:hover { background:var(--text); color:var(--bg); }
+        .timeline li:first-child::before { background:var(--text); }
+        .timeline .tl-text { color:var(--muted); }
+        .timeline .tl-date { font-family:'JetBrains Mono',monospace; font-size:0.62rem; color:var(--dim); margin-top:2px; }
 
-        /* ── Section ── */
-        .section {
-            max-width:900px; margin:0 auto;
-            padding:100px 40px;
+        /* ── Right Content ── */
+        .content { flex:1; min-width:0; }
+
+        .hero-block {
+            border:1px solid var(--border); background:var(--card);
+            padding:40px 36px; margin-bottom:20px;
         }
-        .section-label {
-            font-size:0.62rem; font-weight:500; letter-spacing:0.2em;
+        .hero-greeting {
+            font-size:0.68rem; font-weight:500; letter-spacing:0.15em;
             text-transform:uppercase; color:var(--dim);
             margin-bottom:12px;
         }
-        .section h2 {
+        .hero-name {
             font-family:'Playfair Display',serif;
-            font-size:clamp(2rem, 4vw, 3rem);
-            font-weight:700; letter-spacing:-0.02em;
-            color:var(--text); margin-bottom:48px;
-            line-height:1.15;
-        }
-        .divider { width:100%; height:1px; background:var(--border); margin:0; }
-
-        /* ── About Cards ── */
-        .about-grid {
-            display:grid; grid-template-columns:1fr 1fr;
-            gap:0;
-        }
-        .about-card {
-            padding:36px 32px;
-            border:1px solid var(--border);
-            transition:border-color 0.25s;
-        }
-        .about-card:hover { border-color:var(--text); }
-        .about-card h3 {
-            font-family:'Playfair Display',serif;
-            font-size:1.2rem; font-weight:600;
-            color:var(--text); margin-bottom:12px;
-        }
-        .about-card p {
-            font-size:0.85rem; line-height:1.8; color:var(--muted);
+            font-size:2.8rem; font-weight:700;
+            letter-spacing:-0.03em; line-height:1.1;
             margin-bottom:16px;
         }
-        .tag-row { display:flex; flex-wrap:wrap; gap:8px; }
-        .tag {
-            font-size:0.62rem; font-weight:500; letter-spacing:0.12em;
-            text-transform:uppercase; color:var(--dim);
-            padding:4px 0; border-bottom:1px solid var(--faint);
+        .hero-name em { font-weight:400; color:var(--muted); }
+        .hero-bio {
+            font-size:0.88rem; color:var(--muted);
+            line-height:1.8; max-width:480px;
+            margin-bottom:28px;
         }
+        .social-row { display:flex; gap:12px; }
+        .social-link {
+            display:flex; align-items:center; justify-content:center;
+            width:38px; height:38px;
+            border:1px solid var(--border); transition:all 0.2s;
+        }
+        .social-link:hover { border-color:var(--text); }
+        .social-link svg { width:16px; height:16px; fill:var(--muted); transition:fill 0.2s; }
+        .social-link:hover svg { fill:var(--text); }
 
-        /* ── Projects ── */
-        .project-list { list-style:none; }
-        .project-item {
-            border-bottom:1px solid var(--border);
-            transition:border-color 0.25s;
+        /* ── Section ── */
+        .section-head {
+            display:flex; align-items:center; gap:12px;
+            margin-bottom:16px; margin-top:8px;
         }
-        .project-item:first-child { border-top:1px solid var(--border); }
-        .project-item a {
-            display:grid; grid-template-columns:60px 1fr auto;
-            align-items:center; gap:24px;
-            padding:28px 0; text-decoration:none; color:inherit;
-            transition:all 0.25s;
-        }
-        .project-item:hover { border-color:var(--text); }
-        .project-item .idx {
-            font-family:'JetBrains Mono',monospace;
-            font-size:0.72rem; color:var(--dim);
-            font-variant-numeric:tabular-nums;
-        }
-        .project-item .info h3 {
+        .section-head .icon { width:16px; height:16px; fill:var(--dim); }
+        .section-head h2 {
             font-family:'Playfair Display',serif;
-            font-size:1.1rem; font-weight:600;
-            color:var(--text); margin-bottom:4px;
-            transition:font-style 0.25s;
+            font-size:1.15rem; font-weight:600;
+            letter-spacing:-0.01em;
         }
-        .project-item:hover .info h3 { font-style:italic; }
-        .project-item .info p {
-            font-size:0.8rem; color:var(--muted); line-height:1.6;
-        }
-        .project-item .arrow {
-            font-size:0.72rem; color:var(--dim);
-            transition:all 0.25s; letter-spacing:0.05em;
-        }
-        .project-item:hover .arrow { color:var(--text); transform:translateX(4px); }
 
-        /* ── Contact ── */
-        .contact-grid {
-            display:grid; grid-template-columns:repeat(3,1fr);
-            gap:0;
+        /* ── Project Cards ── */
+        .project-grid {
+            display:grid; grid-template-columns:1fr 1fr;
+            gap:16px; margin-bottom:20px;
         }
-        .contact-card {
-            padding:32px; border:1px solid var(--border);
+        .project-card {
+            border:1px solid var(--border); background:var(--card);
+            transition:all 0.25s; cursor:pointer;
+            display:flex; flex-direction:column;
             text-decoration:none; color:inherit;
-            transition:border-color 0.25s;
         }
-        .contact-card:hover { border-color:var(--text); }
-        .contact-card .label {
-            font-size:0.6rem; font-weight:600; letter-spacing:0.2em;
-            text-transform:uppercase; color:var(--dim);
-            margin-bottom:8px;
+        .project-card:hover { border-color:var(--text); }
+        .project-card .pc-img {
+            width:100%; aspect-ratio:16/9;
+            background:var(--bg2); overflow:hidden;
+            border-bottom:1px solid var(--border);
         }
-        .contact-card .value {
+        .project-card .pc-img img {
+            width:100%; height:100%; object-fit:cover; display:block;
+            transition:transform 0.4s;
+        }
+        .project-card:hover .pc-img img { transform:scale(1.03); }
+        .project-card .pc-body { padding:18px 20px; }
+        .project-card .pc-title {
             font-family:'Playfair Display',serif;
-            font-size:1rem; font-weight:600; color:var(--text);
+            font-size:1rem; font-weight:600;
+            margin-bottom:6px; transition:font-style 0.25s;
         }
-        .contact-card .value a {
-            color:var(--text); text-decoration:none;
-            border-bottom:1px solid var(--faint);
-            transition:border-color 0.25s;
+        .project-card:hover .pc-title { font-style:italic; }
+        .project-card .pc-desc {
+            font-size:0.78rem; color:var(--muted); line-height:1.6;
         }
-        .contact-card:hover .value a { border-color:var(--text); }
+
+        /* ── Now ── */
+        .now-card {
+            border:1px solid var(--border); background:var(--card);
+            padding:24px 28px; margin-bottom:20px;
+        }
+        .now-card h3 {
+            font-family:'Playfair Display',serif;
+            font-size:1rem; font-weight:600; margin-bottom:14px;
+        }
+        .now-list { list-style:none; }
+        .now-list li {
+            padding:8px 0; border-bottom:1px solid var(--faint);
+            font-size:0.82rem; color:var(--muted);
+            display:flex; align-items:center; gap:10px;
+        }
+        .now-list li:last-child { border-bottom:none; }
+        .now-list .dot { width:4px; height:4px; background:var(--dim); flex-shrink:0; }
 
         /* ── Footer ── */
         footer {
-            max-width:900px; margin:0 auto;
-            padding:40px 40px 60px;
-            display:flex; justify-content:space-between; align-items:center;
-            font-size:0.65rem; letter-spacing:0.1em;
+            max-width:1080px; margin:0 auto;
+            padding:24px 24px 48px;
+            display:flex; justify-content:space-between;
+            font-size:0.62rem; letter-spacing:0.1em;
             text-transform:uppercase; color:var(--dim);
         }
-        footer a { color:var(--dim); text-decoration:none; transition:color 0.2s; }
-        footer a:hover { color:var(--text); }
 
         /* ── Music Player ── */
         .music-fab {
             position:fixed; bottom:28px; right:28px; z-index:100;
-            width:50px; height:50px;
+            width:48px; height:48px;
             border:1px solid var(--text); background:var(--bg);
             display:flex; align-items:center; justify-content:center;
             cursor:pointer; transition:all 0.25s;
         }
         .music-fab:hover { background:var(--text); }
-        .music-fab .bars { display:flex; gap:2px; height:14px; align-items:flex-end; }
-        .music-fab .bar { width:2px; background:var(--text); animation:fabBar 0.8s ease-in-out infinite alternate; }
+        .music-fab .bars { display:flex; gap:2px; height:13px; align-items:flex-end; }
+        .music-fab .bar { width:2px; background:var(--text); animation:fabBar .8s ease-in-out infinite alternate; }
         .music-fab:hover .bar { background:var(--bg); }
-        .music-fab .bar:nth-child(1){height:5px;animation-delay:0s} .music-fab .bar:nth-child(2){height:9px;animation-delay:.15s} .music-fab .bar:nth-child(3){height:3px;animation-delay:.3s}
+        .music-fab .bar:nth-child(1){height:4px;animation-delay:0s} .music-fab .bar:nth-child(2){height:8px;animation-delay:.15s} .music-fab .bar:nth-child(3){height:3px;animation-delay:.3s}
         .music-fab.paused .bar { animation-play-state:paused; }
-        @keyframes fabBar { 0%{height:3px} 100%{height:12px} }
+        @keyframes fabBar { 0%{height:3px} 100%{height:11px} }
 
         .music-panel {
-            position:fixed; bottom:88px; right:28px; z-index:99;
-            width:360px; max-height:560px;
+            position:fixed; bottom:86px; right:28px; z-index:99;
+            width:340px; max-height:520px;
             background:var(--bg); border:1px solid var(--text);
             opacity:0; transform:translateY(8px);
             pointer-events:none; transition:all 0.3s;
@@ -244,289 +246,232 @@
         }
         .music-panel.open { opacity:1; transform:translateY(0); pointer-events:auto; }
 
-        .mp-close {
-            position:absolute; top:14px; right:16px;
-            background:none; border:none; color:var(--dim);
-            cursor:pointer; font-size:0.8rem; z-index:2;
-            transition:color 0.2s;
-        }
+        .mp-close { position:absolute; top:12px; right:14px; background:none; border:none; color:var(--dim); cursor:pointer; font-size:0.8rem; z-index:2; transition:color 0.2s; }
         .mp-close:hover { color:var(--text); }
 
-        .mp-now {
-            padding:24px 24px 18px;
-            display:flex; gap:18px; align-items:center;
-            border-bottom:1px solid var(--border);
-        }
-        .mp-cover {
-            width:64px; height:64px; flex-shrink:0;
-            border:1px solid var(--border); overflow:hidden;
-        }
+        .mp-now { padding:20px 20px 14px; display:flex; gap:16px; align-items:center; border-bottom:1px solid var(--border); }
+        .mp-cover { width:56px; height:56px; flex-shrink:0; border:1px solid var(--border); overflow:hidden; }
         .mp-cover img { width:100%; height:100%; object-fit:cover; display:block; }
-        .mp-cover .ph {
-            width:100%; height:100%; display:flex;
-            align-items:center; justify-content:center;
-            font-family:'Playfair Display',serif;
-            font-size:1.4rem; color:var(--dim);
-        }
-        .mp-title {
-            font-family:'Playfair Display',serif;
-            font-size:1.05rem; font-weight:600; color:var(--text);
-            overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
-        }
-        .mp-artist {
-            font-size:0.72rem; color:var(--muted);
-            margin-top:3px; letter-spacing:0.02em;
-        }
+        .mp-cover .ph { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--dim); }
+        .mp-title { font-family:'Playfair Display',serif; font-size:0.95rem; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .mp-artist { font-size:0.68rem; color:var(--muted); margin-top:2px; }
 
-        .mp-progress { padding:16px 24px 0; }
-        .mp-bar {
-            width:100%; height:2px; background:var(--faint);
-            cursor:pointer; position:relative;
-        }
-        .mp-bar .fill {
-            height:100%; background:var(--text); width:0%;
-            position:relative; transition:width 0.1s;
-        }
-        .mp-bar .fill::after {
-            content:''; position:absolute; right:-4px; top:-3px;
-            width:8px; height:8px; background:var(--text);
-            opacity:0; transition:opacity 0.2s;
-        }
+        .mp-progress { padding:14px 20px 0; }
+        .mp-bar { width:100%; height:2px; background:var(--faint); cursor:pointer; position:relative; }
+        .mp-bar .fill { height:100%; background:var(--text); width:0%; position:relative; transition:width .1s; }
+        .mp-bar .fill::after { content:''; position:absolute; right:-4px; top:-3px; width:8px; height:8px; background:var(--text); opacity:0; transition:opacity .2s; }
         .mp-bar:hover .fill::after { opacity:1; }
-        .mp-time {
-            display:flex; justify-content:space-between;
-            font-family:'JetBrains Mono',monospace;
-            font-size:0.6rem; color:var(--dim);
-            margin-top:8px; font-variant-numeric:tabular-nums;
-            letter-spacing:0.03em;
-        }
+        .mp-time { display:flex; justify-content:space-between; font-family:'JetBrains Mono',monospace; font-size:0.58rem; color:var(--dim); margin-top:6px; font-variant-numeric:tabular-nums; }
 
-        .mp-ctrls {
-            display:flex; justify-content:center; align-items:center;
-            gap:20px; padding:18px 24px;
-        }
-        .mp-btn {
-            background:none; border:none; color:var(--muted);
-            cursor:pointer; padding:4px; transition:color 0.2s;
-            display:flex; align-items:center; justify-content:center;
-        }
+        .mp-ctrls { display:flex; justify-content:center; align-items:center; gap:18px; padding:14px 20px; }
+        .mp-btn { background:none; border:none; color:var(--muted); cursor:pointer; padding:4px; transition:color .2s; display:flex; align-items:center; justify-content:center; }
         .mp-btn:hover { color:var(--text); }
-        .mp-btn svg { width:15px; height:15px; }
-        .mp-btn.play svg { width:22px; height:22px; }
+        .mp-btn svg { width:14px; height:14px; }
+        .mp-btn.play svg { width:20px; height:20px; }
         .mp-btn.on { color:var(--text); }
 
-        .mp-vol {
-            display:flex; align-items:center; gap:10px;
-            padding:0 24px 16px;
-        }
-        .mp-vol svg { width:12px; height:12px; color:var(--dim); flex-shrink:0; }
-        .mp-vol input[type=range] {
-            flex:1; height:2px; -webkit-appearance:none; appearance:none;
-            background:var(--faint); outline:none;
-        }
-        .mp-vol input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance:none; width:8px; height:8px;
-            background:var(--text); cursor:pointer;
-        }
+        .mp-vol { display:flex; align-items:center; gap:8px; padding:0 20px 14px; }
+        .mp-vol svg { width:11px; height:11px; color:var(--dim); flex-shrink:0; }
+        .mp-vol input[type=range] { flex:1; height:2px; -webkit-appearance:none; appearance:none; background:var(--faint); outline:none; }
+        .mp-vol input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:8px; height:8px; background:var(--text); cursor:pointer; }
 
-        .mp-list-head {
-            padding:12px 24px;
-            font-size:0.6rem; font-weight:600; letter-spacing:0.2em;
-            text-transform:uppercase; color:var(--dim);
-            border-top:1px solid var(--border);
-        }
-        .mp-list {
-            flex:1; overflow-y:auto; padding:0 16px 16px;
-            scrollbar-width:thin; scrollbar-color:var(--faint) transparent;
-        }
+        .mp-list-head { padding:10px 20px; font-size:0.58rem; font-weight:600; letter-spacing:.15em; text-transform:uppercase; color:var(--dim); border-top:1px solid var(--border); }
+        .mp-list { flex:1; overflow-y:auto; padding:0 12px 12px; scrollbar-width:thin; scrollbar-color:var(--faint) transparent; }
         .mp-list::-webkit-scrollbar { width:3px; }
         .mp-list::-webkit-scrollbar-thumb { background:var(--faint); }
 
-        .mp-item {
-            display:flex; align-items:center; gap:12px;
-            padding:10px 10px; cursor:pointer;
-            transition:background 0.2s; border-bottom:1px solid transparent;
-        }
+        .mp-item { display:flex; align-items:center; gap:10px; padding:8px 8px; cursor:pointer; transition:background .2s; border-bottom:1px solid transparent; }
         .mp-item:hover { background:rgba(28,28,28,0.02); }
         .mp-item.active { border-bottom-color:var(--faint); }
-        .mp-item .mi-n {
-            font-family:'JetBrains Mono',monospace;
-            font-size:0.6rem; color:var(--dim);
-            width:20px; text-align:center; flex-shrink:0;
-            font-variant-numeric:tabular-nums;
-        }
+        .mp-item .mi-n { font-family:'JetBrains Mono',monospace; font-size:0.58rem; color:var(--dim); width:18px; text-align:center; flex-shrink:0; font-variant-numeric:tabular-nums; }
         .mp-item.active .mi-n { color:var(--text); }
-        .mp-item .mi-cover {
-            width:28px; height:28px; flex-shrink:0;
-            border:1px solid var(--faint); overflow:hidden;
-        }
+        .mp-item .mi-cover { width:26px; height:26px; flex-shrink:0; border:1px solid var(--faint); overflow:hidden; }
         .mp-item .mi-cover img { width:100%; height:100%; object-fit:cover; display:block; }
         .mp-item .mi-info { flex:1; min-width:0; }
-        .mp-item .mi-name {
-            font-size:0.78rem; color:var(--muted);
-            overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
-        }
+        .mp-item .mi-name { font-size:0.74rem; color:var(--muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
         .mp-item.active .mi-name { color:var(--text); font-weight:500; }
-        .mp-item .mi-artist { font-size:0.6rem; color:var(--dim); }
-        .mp-item .mi-dur {
-            font-family:'JetBrains Mono',monospace;
-            font-size:0.58rem; color:var(--dim); flex-shrink:0;
-            font-variant-numeric:tabular-nums;
-        }
-        .mp-item .mi-dl {
-            opacity:0; background:none; border:none; color:var(--dim);
-            cursor:pointer; padding:3px; transition:all 0.2s; flex-shrink:0;
-        }
+        .mp-item .mi-artist { font-size:0.58rem; color:var(--dim); }
+        .mp-item .mi-dur { font-family:'JetBrains Mono',monospace; font-size:0.55rem; color:var(--dim); flex-shrink:0; font-variant-numeric:tabular-nums; }
+        .mp-item .mi-dl { opacity:0; background:none; border:none; color:var(--dim); cursor:pointer; padding:3px; transition:all .2s; flex-shrink:0; }
         .mp-item:hover .mi-dl { opacity:1; }
         .mp-item .mi-dl:hover { color:var(--text); }
-        .mp-item .mi-dl svg { width:11px; height:11px; }
+        .mp-item .mi-dl svg { width:10px; height:10px; }
 
-        @keyframes eq { 0%,100%{height:2px} 50%{height:9px} }
-        .mp-item.active .mi-n.eq-on {
-            display:flex; gap:1px; align-items:flex-end; justify-content:center; height:11px;
-        }
-        .mp-item.active .mi-n.eq-on .e {
-            width:1.5px; background:var(--text); animation:eq .6s ease-in-out infinite;
-        }
-        .mp-item.active .mi-n.eq-on .e:nth-child(1){animation-delay:0s}
-        .mp-item.active .mi-n.eq-on .e:nth-child(2){animation-delay:.15s}
-        .mp-item.active .mi-n.eq-on .e:nth-child(3){animation-delay:.3s}
+        @keyframes eq { 0%,100%{height:2px} 50%{height:8px} }
+        .mp-item.active .mi-n.eq-on { display:flex; gap:1px; align-items:flex-end; justify-content:center; height:10px; }
+        .mp-item.active .mi-n.eq-on .e { width:1.5px; background:var(--text); animation:eq .6s ease-in-out infinite; }
+        .mp-item.active .mi-n.eq-on .e:nth-child(1){animation-delay:0s} .mp-item.active .mi-n.eq-on .e:nth-child(2){animation-delay:.15s} .mp-item.active .mi-n.eq-on .e:nth-child(3){animation-delay:.3s}
 
         /* ── Responsive ── */
-        @media(max-width:640px) {
-            .nav { padding:16px 20px; }
-            .nav-links { gap:20px; }
-            .nav-links a { font-size:0.65rem; }
-            .hero { padding:100px 20px 60px; min-height:auto; }
-            .section { padding:60px 20px; }
-            .about-grid { grid-template-columns:1fr; }
-            .contact-grid { grid-template-columns:1fr; }
-            .project-item a { grid-template-columns:40px 1fr; }
-            .project-item .arrow { display:none; }
-            .music-panel { right:12px; left:12px; bottom:80px; width:auto; }
-            footer { flex-direction:column; gap:8px; text-align:center; }
+        @media(max-width:768px) {
+            .main { flex-direction:column; padding:16px; }
+            .sidebar { width:100%; position:static; }
+            .hero-name { font-size:2rem; }
+            .project-grid { grid-template-columns:1fr; }
+            .music-panel { right:12px; left:12px; bottom:76px; width:auto; }
         }
     </style>
 </head>
 <body>
-    <!-- Nav -->
-    <nav class="nav">
-        <a href="/" class="nav-logo">Mr.wei</a>
-        <div class="nav-links">
-            <a href="#about">About</a>
-            <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
-        </div>
-    </nav>
+    <div class="main">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <div class="avatar-card">
+                <div class="avatar-wrap">
+                    <img src="/homelab-logo.png" alt="Mr.wei">
+                </div>
+                <div class="avatar-name">Mr.wei</div>
+                <div class="avatar-desc">Developer · Homelab · IoT</div>
+            </div>
 
-    <!-- Hero -->
-    <div class="hero">
-        <div class="hero-inner">
-            <div class="hero-label">Developer · Homelab · IoT</div>
-            <h1>Building things<br>that <em>actually work</em></h1>
-            <p class="bio">全栈开发者，重度 Homelab 用户。自建 NAS + Docker 生态，十几个服务 7×24 运行。折腾 AI Agent、IoT 硬件、WiFi 感知——把想法变成能跑的东西。</p>
-            <a href="#projects" class="hero-btn">View Projects</a>
-        </div>
-    </div>
-
-    <!-- About -->
-    <div class="section" id="about">
-        <div class="section-label">01 — About</div>
-        <h2>What I do</h2>
-        <div class="about-grid">
-            <div class="about-card">
-                <h3>Development</h3>
-                <p>全栈偏后端，偏爱 Python + Linux。相信能跑在自己机器上的就不该上云。简洁、可维护、自动化。</p>
-                <div class="tag-row">
-                    <span class="tag">Python</span>
-                    <span class="tag">Docker</span>
-                    <span class="tag">Bash</span>
-                    <span class="tag">JavaScript</span>
+            <div class="info-card">
+                <div class="info-item">
+                    <svg viewBox="0 0 1024 1024"><path d="M512 249.976c-99.388 0-180.706 81.318-180.706 180.706S412.612 611.388 512 611.388s180.706-81.318 180.706-180.706S611.388 249.976 512 249.976zm0 301.176c-66.259 0-120.471-54.212-120.471-120.471S445.741 310.21 512 310.21s120.471 54.212 120.471 120.471-54.212 120.471-120.471 120.471z"/><path d="M512 39.153c-216.847 0-391.529 174.682-391.529 391.529C120.471 780.047 512 1002.918 512 1002.918s391.529-222.871 391.529-572.235C903.529 213.835 728.847 39.153 512 39.153zm0 891.482C424.659 873.412 180.706 686.682 180.706 430.682c0-183.717 147.576-331.294 331.294-331.294s331.294 147.576 331.294 331.294c0 256-243.953 442.73-331.294 500z"/></svg>
+                    China
+                </div>
+                <div class="info-item">
+                    <svg viewBox="0 0 1024 1024"><path d="M729.6 234.667H294.4V157.867a51.2 51.2 0 0151.2-51.2h332.8a51.2 51.2 0 0151.2 51.2v76.8zm179.2 51.2a51.2 51.2 0 0151.2 51.2v512a51.2 51.2 0 01-51.2 51.2H115.2a51.2 51.2 0 01-51.2-51.2v-512a51.2 51.2 0 0151.2-51.2h793.557z"/></svg>
+                    Homelab Enthusiast
+                </div>
+                <div class="info-item">
+                    <svg viewBox="0 0 1024 1024"><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"/><path d="M686.7 638.6L544.1 535.5V288c0-4.4-3.6-8-8-8H488c-4.4 0-8 3.6-8 8v275.4c0 2.6 1.2 5 3.3 6.5l165.4 120.6c3.6 2.6 8.6 1.8 11.2-1.7l28.6-39c2.6-3.7 1.8-8.7-1.8-11.2z"/></svg>
+                    UTC+8
                 </div>
             </div>
-            <div class="about-card">
-                <h3>Hardware</h3>
-                <p>ESP32 玩家。墨水屏日历、环境传感器、WiFi CSI 人体感知，从 PCB 到固件全链路。</p>
-                <div class="tag-row">
-                    <span class="tag">ESP32</span>
-                    <span class="tag">Arduino</span>
-                    <span class="tag">WiFi CSI</span>
-                </div>
-            </div>
-            <div class="about-card">
-                <h3>AI & Automation</h3>
-                <p>重度 AI Agent 用户。Hermes Agent 驱动定时任务、RSS 聚合、邮件摘要，让机器替我干活。</p>
-                <div class="tag-row">
-                    <span class="tag">Hermes</span>
-                    <span class="tag">LLM</span>
-                    <span class="tag">Agent</span>
-                </div>
-            </div>
-            <div class="about-card">
-                <h3>Homelab</h3>
-                <p>NAS + NPM + Tailscale + Cloudflare Tunnel。所有服务自建自管，稳定运行不间断。</p>
-                <div class="tag-row">
-                    <span class="tag">NAS</span>
-                    <span class="tag">Cloudflare</span>
-                    <span class="tag">Tailscale</span>
-                    <span class="tag">Nginx</span>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Projects -->
-    <div class="section" id="projects">
-        <div class="section-label">02 — Projects</div>
-        <h2>Selected work</h2>
-        <ul class="project-list">
-            <li class="project-item">
-                <a href="https://lab.mrwei031249.xyz" target="_blank">
-                    <span class="idx">01</span>
-                    <div class="info"><h3>Homelab Dashboard</h3><p>自建聚合仪表盘 — Docker 管理、系统监控、AI 对话、Web 终端</p></div>
-                    <span class="arrow">Visit ↗</span>
-                </a>
-            </li>
-            <li class="project-item">
-                <a href="#">
-                    <span class="idx">02</span>
-                    <div class="info"><h3>WiFi CSI Sensing</h3><p>基于 ESP32 信道状态信息的室内人员检测与动作识别</p></div>
-                    <span class="arrow"></span>
-                </a>
-            </li>
-            <li class="project-item">
-                <a href="#">
-                    <span class="idx">03</span>
-                    <div class="info"><h3>ESP32 IoT Nodes</h3><p>墨水屏日历、环境传感器节点、局域网扫描工具</p></div>
-                    <span class="arrow"></span>
-                </a>
-            </li>
-            <li class="project-item">
-                <a href="#">
-                    <span class="idx">04</span>
-                    <div class="info"><h3>AI Agent 生态</h3><p>Hermes Agent 自动化工作流 — 定时任务、RSS 聚合、邮件摘要</p></div>
-                    <span class="arrow"></span>
-                </a>
-            </li>
-        </ul>
-    </div>
+            <div class="tags-card">
+                <span class="tag">Python</span>
+                <span class="tag">Docker</span>
+                <span class="tag">Linux</span>
+                <span class="tag">ESP32</span>
+                <span class="tag">AI Agent</span>
+                <span class="tag">Homelab</span>
+                <span class="tag">IoT</span>
+                <span class="tag">WiFi CSI</span>
+            </div>
 
-    <!-- Contact -->
-    <div class="section" id="contact">
-        <div class="section-label">03 — Contact</div>
-        <h2>Get in touch</h2>
-        <div class="contact-grid">
-            <div class="contact-card">
-                <div class="label">Email</div>
-                <div class="value"><a href="mailto:mrwei0312@qq.com">mrwei0312@qq.com</a></div>
+            <div class="timeline-card">
+                <div class="timeline-title">Timeline</div>
+                <ul class="timeline">
+                    <li>
+                        <div class="tl-text">Cloudflare Tunnel + NPM 全面部署</div>
+                        <div class="tl-date">2026.07</div>
+                    </li>
+                    <li>
+                        <div class="tl-text">Hermes Agent 自动化生态搭建</div>
+                        <div class="tl-date">2026.03</div>
+                    </li>
+                    <li>
+                        <div class="tl-text">Homelab Dashboard 上线</div>
+                        <div class="tl-date">2026.01</div>
+                    </li>
+                    <li>
+                        <div class="tl-text">ESP32 WiFi CSI 人体感知实验</div>
+                        <div class="tl-date">2025.10</div>
+                    </li>
+                    <li>
+                        <div class="tl-text">自建 NAS + Docker 生态</div>
+                        <div class="tl-date">2025.06</div>
+                    </li>
+                    <li>
+                        <div class="tl-text">开始折腾 Homelab</div>
+                        <div class="tl-date">2025.01</div>
+                    </li>
+                </ul>
             </div>
-            <div class="contact-card">
-                <div class="label">GitHub</div>
-                <div class="value"><a href="https://github.com/wzh0312" target="_blank">github.com/wzh0312 ↗</a></div>
+        </aside>
+
+        <!-- Right Content -->
+        <div class="content">
+            <!-- Hero -->
+            <div class="hero-block">
+                <div class="hero-greeting">Welcome</div>
+                <h1 class="hero-name">Building things<br>that <em>actually work</em></h1>
+                <p class="hero-bio">全栈开发者，重度 Homelab 用户。自建 NAS + Docker 生态，十几个服务 7×24 运行。折腾 AI Agent、IoT 硬件、WiFi 感知——把想法变成能跑的东西。</p>
+                <div class="social-row">
+                    <a href="https://github.com/wzh0312" target="_blank" class="social-link" title="GitHub">
+                        <svg viewBox="0 0 1024 1024"><path d="M511.6 76.3C264.3 76.2 64 276.4 64 523.5 64 718.9 189.3 885 363.8 946c23.5 5.9 19.9-10.8 19.9-22.2v-77.5c-135.7 15.9-141.2-73.9-150.3-88.9C215 726 171.5 718 184.5 703c30.9-15.9 62.4 4 98.9 57.9 26.4 39.1 77.9 32.5 104 26 5.7-23.5 17.9-44.5 34.7-60.8-140.6-25.2-199.2-111-199.2-213 0-49.5 16.3-95 48.3-131.7-20.4-60.5 1.9-112.3 4.9-120 58.1-5.2 118.5 41.6 123.2 45.3 33-8.9 70.7-13.6 112.9-13.6 42.4 0 80.2 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.3-43.9 2.9 7.7 24.7 58.3 5.5 118 32.4 36.8 48.9 82.7 48.9 132.3 0 102.2-59 188.1-200 212.9 23.5 23.2 38.1 55.4 38.1 91v112.5c.8 9 0 17.9 15 17.9 177.1-59.7 304.6-227 304.6-424.1 0-247.2-200.4-447.3-447.5-447.3z"/></svg>
+                    </a>
+                    <a href="mailto:mrwei0312@qq.com" class="social-link" title="Email">
+                        <svg viewBox="0 0 1024 1024"><path d="M926.5 355.6V780.2a73.1 73.1 0 01-73.1 73.1H170.7a73.1 73.1 0 01-73.1-73.1V355.6l304.1 257.8a170.7 170.7 0 00220.7 0L926.5 355.6zM853.3 170.7h-682.7a73 73 0 00-40.2 65.3v24.4L559.5 581.2a73.1 73.1 0 0091.3 2.9l3.6-2.9L926.5 268.2v-24.4a73 73 0 00-73.2-73.1z"/></svg>
+                    </a>
+                    <a href="https://lab.mrwei031249.xyz" target="_blank" class="social-link" title="Dashboard">
+                        <svg viewBox="0 0 1024 1024"><path d="M928 140.8H96c-19.2 0-32 12.8-32 32v678.4c0 19.2 12.8 32 32 32h832c19.2 0 32-12.8 32-32V172.8c0-19.2-12.8-32-32-32zm-32 678.4H128V204.8h768v614.4z"/><path d="M352 720h-64V544h64v176zm128 0h-64V448h64v272zm128 0h-64V384h64v236.8zm128 0h-64V512h64v208z"/></svg>
+                    </a>
+                </div>
             </div>
-            <div class="contact-card">
-                <div class="label">Dashboard</div>
-                <div class="value"><a href="https://lab.mrwei031249.xyz" target="_blank">lab.mrwei031249.xyz ↗</a></div>
+
+            <!-- Sites -->
+            <div class="section-head">
+                <svg class="icon" viewBox="0 0 1024 1024"><path d="M629.3 202.7v213.3h277.3v448h-512v-213.3H117.3v-448h512zm213.4 277.3H629.3V650.7H558.9V800H942.9V480z"/></svg>
+                <h2>Sites</h2>
+            </div>
+            <div class="project-grid">
+                <a href="https://lab.mrwei031249.xyz" target="_blank" class="project-card">
+                    <div class="pc-img"><img src="/homelab-logo.png" alt="Dashboard"></div>
+                    <div class="pc-body">
+                        <div class="pc-title">Homelab Dashboard</div>
+                        <div class="pc-desc">Docker 管理、系统监控、AI 对话、Web 终端</div>
+                    </div>
+                </a>
+                <a href="https://home.mrwei031249.xyz" target="_blank" class="project-card">
+                    <div class="pc-img" style="display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:2rem;color:var(--dim);">Mw</div>
+                    <div class="pc-body">
+                        <div class="pc-title">Personal Homepage</div>
+                        <div class="pc-desc">个人主页 — 编辑杂志风，音乐播放器</div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Projects -->
+            <div class="section-head">
+                <svg class="icon" viewBox="0 0 1024 1024"><path d="M629.3 202.7v213.3h277.3v448h-512v-213.3H117.3v-448h512zm213.4 277.3H629.3V650.7H558.9V800H942.9V480z"/></svg>
+                <h2>Projects</h2>
+            </div>
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="pc-img" style="display:flex;align-items:center;justify-content:center;font-size:2rem;">📡</div>
+                    <div class="pc-body">
+                        <div class="pc-title">WiFi CSI Sensing</div>
+                        <div class="pc-desc">基于 ESP32 信道状态信息的室内人员检测与动作识别</div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="pc-img" style="display:flex;align-items:center;justify-content:center;font-size:2rem;">🔧</div>
+                    <div class="pc-body">
+                        <div class="pc-title">ESP32 IoT Nodes</div>
+                        <div class="pc-desc">墨水屏日历、环境传感器节点、局域网扫描工具</div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="pc-img" style="display:flex;align-items:center;justify-content:center;font-size:2rem;">🤖</div>
+                    <div class="pc-body">
+                        <div class="pc-title">AI Agent 生态</div>
+                        <div class="pc-desc">Hermes Agent 自动化工作流 — 定时任务、RSS 聚合、邮件摘要</div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="pc-img" style="display:flex;align-items:center;justify-content:center;font-size:2rem;">🏠</div>
+                    <div class="pc-body">
+                        <div class="pc-title">Homelab</div>
+                        <div class="pc-desc">NAS + NPM + Tailscale + Cloudflare Tunnel，全栈自建</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Now -->
+            <div class="section-head">
+                <svg class="icon" viewBox="0 0 1024 1024"><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm192 472H448V320h56v104h136v56h64z"/></svg>
+                <h2>Now</h2>
+            </div>
+            <div class="now-card">
+                <h3>正在做的事</h3>
+                <ul class="now-list">
+                    <li><span class="dot"></span>搭建 Hermes Agent 自动化生态</li>
+                    <li><span class="dot"></span>ESP32 WiFi CSI 人体感知实验</li>
+                    <li><span class="dot"></span>Homelab 服务持续扩展</li>
+                    <li><span class="dot"></span>探索 AI Agent 生态（Hermes skills、gstack）</li>
+                </ul>
             </div>
         </div>
     </div>
@@ -537,19 +482,14 @@
     </footer>
 
     <!-- Music FAB -->
-    <div class="music-fab paused" id="musicFab">
-        <div class="bars"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
-    </div>
+    <div class="music-fab paused" id="musicFab"><div class="bars"><div class="bar"></div><div class="bar"></div><div class="bar"></div></div></div>
 
     <!-- Music Panel -->
     <div class="music-panel" id="musicPanel">
         <button class="mp-close" id="mpClose">✕</button>
         <div class="mp-now">
             <div class="mp-cover" id="mpCover"><div class="ph">♫</div><img id="mpCoverImg" src="" style="display:none"></div>
-            <div style="flex:1;min-width:0">
-                <div class="mp-title" id="mpTitle">—</div>
-                <div class="mp-artist" id="mpArtist">—</div>
-            </div>
+            <div style="flex:1;min-width:0"><div class="mp-title" id="mpTitle">—</div><div class="mp-artist" id="mpArtist">—</div></div>
         </div>
         <div class="mp-progress">
             <div class="mp-bar" id="mpBar"><div class="fill" id="mpFill"></div></div>
@@ -581,11 +521,9 @@
             { name:"Shape of You", artist:"Ed Sheeran", src:"/music/Shape of You.mp3", cover:"/music/Shape of You.jpg" },
             { name:"Blinding Lights", artist:"The Weeknd", src:"/music/Blinding Lights.mp3", cover:"/music/Blinding Lights.jpg" },
         ];
-
         let cur=0, playing=false, shuffleOn=false, repeatOn=false;
         const audio = new Audio(); audio.volume = 0.4;
         const $ = id => document.getElementById(id);
-
         function fmt(s) { if(!s||isNaN(s))return'0:00'; const m=Math.floor(s/60),sc=Math.floor(s%60); return m+':'+(sc<10?'0':'')+sc; }
 
         function load(i) {
@@ -594,36 +532,13 @@
             $('mpTitle').textContent = t.name;
             $('mpArtist').textContent = t.artist;
             $('mpFill').style.width = '0%';
-            $('mpTimeCur').textContent = '0:00';
-            $('mpTimeDur').textContent = '0:00';
-            if(t.cover) {
-                const img = $('mpCoverImg');
-                img.onload = ()=>{ img.style.display='block'; $('mpCover').querySelector('.ph').style.display='none'; };
-                img.onerror = ()=>{ img.style.display='none'; $('mpCover').querySelector('.ph').style.display='flex'; };
-                img.src = t.cover+'?v='+Date.now();
-            }
-            document.querySelectorAll('.mp-item').forEach((el,idx)=>{
-                el.classList.toggle('active', idx===i);
-                const n = el.querySelector('.mi-n');
-                if(idx===i && playing) { n.classList.add('eq-on'); n.innerHTML='<div class="e"></div><div class="e"></div><div class="e"></div>'; }
-                else { n.classList.remove('eq-on'); n.textContent=idx+1; }
-            });
+            $('mpTimeCur').textContent = '0:00'; $('mpTimeDur').textContent = '0:00';
+            if(t.cover) { const img=$('mpCoverImg'); img.onload=()=>{img.style.display='block';$('mpCover').querySelector('.ph').style.display='none';}; img.onerror=()=>{img.style.display='none';$('mpCover').querySelector('.ph').style.display='flex';}; img.src=t.cover+'?v='+Date.now(); }
+            document.querySelectorAll('.mp-item').forEach((el,idx)=>{ el.classList.toggle('active',idx===i); const n=el.querySelector('.mi-n'); if(idx===i&&playing){n.classList.add('eq-on');n.innerHTML='<div class="e"></div><div class="e"></div><div class="e"></div>';}else{n.classList.remove('eq-on');n.textContent=idx+1;} });
         }
-
-        function toggle() {
-            if(playing){audio.pause();playing=false;} else {audio.play().catch(()=>{});playing=true;}
-            $('mpPlayIcon').style.display=playing?'none':'block';
-            $('mpPauseIcon').style.display=playing?'block':'none';
-            $('musicFab').classList.toggle('paused',!playing);
-            load(cur);
-        }
-
+        function toggle() { if(playing){audio.pause();playing=false;}else{audio.play().catch(()=>{});playing=true;} $('mpPlayIcon').style.display=playing?'none':'block'; $('mpPauseIcon').style.display=playing?'block':'none'; $('musicFab').classList.toggle('paused',!playing); load(cur); }
         function prev(){ cur=(cur-1+playlist.length)%playlist.length; load(cur); if(playing)audio.play(); }
-        function next(){
-            if(shuffleOn){let r;do{r=Math.floor(Math.random()*playlist.length);}while(r===cur&&playlist.length>1);cur=r;}
-            else cur=(cur+1)%playlist.length;
-            load(cur); if(playing)audio.play();
-        }
+        function next(){ if(shuffleOn){let r;do{r=Math.floor(Math.random()*playlist.length);}while(r===cur&&playlist.length>1);cur=r;}else cur=(cur+1)%playlist.length; load(cur); if(playing)audio.play(); }
 
         $('musicFab').onclick=()=>$('musicPanel').classList.toggle('open');
         $('mpClose').onclick=()=>$('musicPanel').classList.remove('open');
@@ -640,16 +555,13 @@
 
         const listEl=$('mpList');
         playlist.forEach((t,i)=>{
-            const el=document.createElement('div');
-            el.className='mp-item'+(i===cur?' active':'');
+            const el=document.createElement('div'); el.className='mp-item'+(i===cur?' active':'');
             el.innerHTML=`<div class="mi-n">${i+1}</div><div class="mi-cover"><img src="${t.cover}" onerror="this.style.display='none'"></div><div class="mi-info"><div class="mi-name">${t.name}</div><div class="mi-artist">${t.artist}</div></div><div class="mi-dur" data-i="${i}">-</div><a class="mi-dl" href="${t.src}" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></a>`;
             el.onclick=e=>{if(e.target.closest('.mi-dl'))return;load(i);playing=true;audio.play();$('mpPlayIcon').style.display='none';$('mpPauseIcon').style.display='block';$('musicFab').classList.remove('paused');};
             listEl.appendChild(el);
-            const tmp=new Audio(t.src);
-            tmp.onloadedmetadata=()=>{const d=listEl.querySelector(`.mi-dur[data-i="${i}"]`);if(d)d.textContent=fmt(tmp.duration);};
+            const tmp=new Audio(t.src); tmp.onloadedmetadata=()=>{const d=listEl.querySelector(`.mi-dur[data-i="${i}"]`);if(d)d.textContent=fmt(tmp.duration);};
         });
         load(6);
-        // Auto-play Shape of You
         setTimeout(()=>{ playing=true; audio.play().catch(()=>{}); $('mpPlayIcon').style.display='none'; $('mpPauseIcon').style.display='block'; $('musicFab').classList.remove('paused'); load(6); }, 500);
     </script>
 </body>
