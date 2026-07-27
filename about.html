@@ -648,7 +648,9 @@
             const tmp=new Audio(t.src);
             tmp.onloadedmetadata=()=>{const d=listEl.querySelector(`.mi-dur[data-i="${i}"]`);if(d)d.textContent=fmt(tmp.duration);};
         });
-        load(0);
+        load(6);
+        // Auto-play Shape of You
+        setTimeout(()=>{ playing=true; audio.play().catch(()=>{}); $('mpPlayIcon').style.display='none'; $('mpPauseIcon').style.display='block'; $('musicFab').classList.remove('paused'); load(6); }, 500);
     </script>
 </body>
 </html>
